@@ -1,0 +1,16 @@
+<header>
+  <nav>
+    <ul>
+      @for(route of routesData;let i = $index ;track i){
+      <li
+        [ngStyle]="{
+          color: activePage() === route.path ? '#1c1c' : ''
+        }"
+        (click)="navigate(route.path)"
+      >
+        {{ route.name }}
+      </li>
+      }
+    </ul>
+  </nav>
+</header>

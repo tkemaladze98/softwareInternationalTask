@@ -1,0 +1,23 @@
+.page-wrapper {
+  width: 100%;
+  height: 100dvh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  main {
+    flex-grow: 1;
+    overflow: auto;
+  }
+}
+
+
+*::-webkit-scrollbar{
+  background-color: transparent;
+  width: 8px;
+}
+
+*::-webkit-scrollbar-thumb{
+  background-color: #ccc;
+  border-radius: 8px;
+}

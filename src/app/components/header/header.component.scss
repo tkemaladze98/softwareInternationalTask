@@ -1,0 +1,27 @@
+header {
+  width: 100%;
+  height: 60px;
+  box-shadow: 0 2px 20px -10px #1111112b;
+  min-height: 40px;
+  background-color: #ffffff;
+  padding: 10px 40px;
+  nav,
+  ul {
+    width: 100%;
+    height: 100%;
+  }
+  ul{
+    display: flex;
+    list-style: none;
+    align-items: center;
+    gap: 24px;
+    li{
+      cursor: pointer;
+      font-size: 18px;
+      color: #1c1c1c;
+      &:hover{
+        color: rgb(18, 18, 228);
+      }
+    }
+  }
+}
