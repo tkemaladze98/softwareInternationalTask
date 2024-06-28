@@ -1,0 +1,21 @@
+<div class="form-item">
+  <mat-form-field class="example-full-width">
+    <mat-label>{{ label }}</mat-label>
+    <input
+      [value]="value"
+      (blur)="onTouch()"
+      (input)="onUpdate($event)"
+      [formControl]="formControl"
+      matInput
+    />
+    @if (formControl.hasError('required')) {
+    <mat-error>{{ label }} is <strong>required</strong></mat-error>
+    } @if (formControl.hasError('maxLength')) {
+    <mat-error
+      >{{ label }} must not be more than
+      <strong>{{ formControl.errors?.["maxLength"].requiredLength }}</strong>
+      character</mat-error
+    >
+    }
+  </mat-form-field>
+</div>
