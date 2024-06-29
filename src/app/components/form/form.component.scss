@@ -9,7 +9,7 @@
   }
   form {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     margin-top: 20px;
     gap: 20px;
     .job-form-wrapper {
@@ -37,12 +37,20 @@
         color: white;
       }
       .positions-form-wrapper {
-        padding: 16px;
-        background-color: rgb(214, 209, 209);
-        border-radius: 8px;
         display: flex;
-        flex-direction: column;
+        flex-direction: column-reverse;
         margin-top: 20px;
+        .positions-form-item {
+          margin-top: 20px;
+          background-color: rgb(214, 209, 209);
+          border-radius: 8px;
+          padding: 16px;
+          display: flex;
+          flex-direction: column;
+          mat-form-field {
+            width: 100%;
+          }
+        }
         .remove-position-btn {
           width: 30%;
           background-color: red;
