@@ -1,1 +1,83 @@
-<p>movies-list works!</p>
+<section class="table-wrapper">
+  <div class="search">
+    <mat-form-field class="example-full-width">
+      <mat-label> ძიება</mat-label>
+      <input (keyup.enter)="getMovies(true)" (input)="setSearchValue($event)" [value]="searchParam()" matInput />
+    </mat-form-field>
+    <button
+      type="button"
+      (click)="getMovies(true)"
+      class="search-btn"
+      mat-flat-button
+    >
+      მოძებნე
+    </button>
+  </div>
+  @if(tableData().length){
+  <table>
+    <caption>
+      Searched movies list
+    </caption>
+    <thead>
+      <tr>
+        @for(header of tableHeaders();track header;let i = $index){
+        <th>{{ header }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for(movie of tableData();track movie.id;let i = $index){
+      <tr>
+        @for(header of tableHeaders();track header;let i = $index){ @if(header
+        !=='image'){
+        <td>{{ movie[header] }}</td>
+        } @if( header ==='image'){
+        <td [class]="header">
+          <img
+            [src]="movie[header]?.url || 'assets/images/No-Image.png'"
+            alt="Movie photo"
+          />
+        </td>
+        } }
+      </tr>
+      }
+    </tbody>
+  </table>
+  }
+</section>
+
+<section class="movies-wrapper">
+  <div class="cards-wrapper">
+    @for(movie of data();track movie.id;let i = $index){
+    <div class="card-wrapper-item">
+      <mat-card class="example-card">
+        <mat-card-header>
+          @if(movie.title){
+          <mat-card-title>{{ movie.title }}</mat-card-title>
+          } @if(movie.titleType){
+          <mat-card-subtitle>{{ movie.titleType }}</mat-card-subtitle>
+          }
+        </mat-card-header>
+        <img
+          mat-card-image
+          [src]="movie.image?.url || 'assets/images/No-Image.png'"
+          alt="'movie'"
+        />
+        <mat-card-content>
+          @if(movie.season){
+          <mat-card-subtitle>season: {{ movie.season }}</mat-card-subtitle>
+          } @if(movie.episode){
+          <mat-card-subtitle>episode: {{ movie.episode }}</mat-card-subtitle>
+          } @if(movie.year){
+          <mat-card-subtitle>year: {{ movie.year }}</mat-card-subtitle>
+          }
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>LIKE</button>
+          <button mat-button>SHARE</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    }
+  </div>
+</section>

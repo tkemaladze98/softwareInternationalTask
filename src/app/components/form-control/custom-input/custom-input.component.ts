@@ -1,9 +1,9 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, forwardRef } from '@angular/core';
-import { AbstractControl, AsyncValidator, ControlValueAccessor, Form, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms';
+import { Component, Input, OnInit, WritableSignal, forwardRef, signal } from '@angular/core';
+import { ControlValueAccessor, Form, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatFormField } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgClass, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-custom-input',
@@ -23,19 +23,19 @@ export class CustomInputComponent implements ControlValueAccessor, OnInit {
   @Input() parentGroup!: FormGroup;
   @Input() controlName: string = '';
   @Input() label: string = '';
-  public formControl: FormControl = new FormControl('')
-  public value: string = '';
+  public formControl: WritableSignal<FormControl> = signal(new FormControl(''))
+  public value: WritableSignal<string> = signal('');
   public onChange: (value: any) => void = () => { };
   public onTouched: () => void = () => { };
 
   constructor() { }
 
   ngOnInit(): void {
-    this.formControl = this.parentGroup.get(this.controlName) as FormControl
+    this.formControl.set(this.parentGroup.get(this.controlName) as FormControl)
   }
 
   writeValue(value: any): void {
-    this.value = value;
+    this.value.set(value)
   }
 
   registerOnChange(fn: any): void {
