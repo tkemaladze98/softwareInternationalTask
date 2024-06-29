@@ -127,7 +127,7 @@ export class FormComponent {
   public checkPatternAsyncValidator(pattern: string, errorText?: string): AsyncValidatorFn {
     const regExp = new RegExp(pattern);
     return (control: AbstractControl): Observable<CustomValidatorErrors | null> => {
-      if (control.value && !control.value.trim()) {
+      if (control.value === '' && !control.value.trim()) {
         return of(null).pipe(delay(500));
       } else if (!regExp.test(control?.value?.toString())) {
         return of(
