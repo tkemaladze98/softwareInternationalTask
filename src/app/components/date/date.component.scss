@@ -1,0 +1,18 @@
+.date-wrapper {
+  .search {
+    display: flex;
+    justify-content: flex-end;
+    mat-form-field {
+      min-width: 300px;
+    }
+  }
+  .input-output{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-top: 24px;
+    span{
+      font-size: 24px;
+    }
+  }
+}
