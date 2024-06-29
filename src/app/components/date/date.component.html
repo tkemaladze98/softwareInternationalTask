@@ -1,1 +1,14 @@
-<p>date works!</p>
+<section class="date-wrapper">
+  <div class="search">
+    <mat-form-field class="example-full-width">
+      <mat-label> თარიღი</mat-label>
+      <input (input)="setValue($event)" [value]="inputValue()" matInput />
+    </mat-form-field>
+  </div>
+  @if(inputValue()){
+  <div class="input-output">
+    <span>input: {{ inputValue() }}</span>
+    <span>output: {{ inputValue() | dateTransform }}</span>
+  </div>
+  }
+</section>
