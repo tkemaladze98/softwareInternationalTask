@@ -3,6 +3,9 @@
     Add job
   </button>
   <form (ngSubmit)="onSubmit()" [formGroup]="jobForm" class="form-data-wrapper">
+    @if(jobs.controls.length){
+    <button class="submit-btn" type="submit" mat-flat-button>Submit</button>
+    }
     <ng-container formArrayName="jobs">
       @for(job of jobs.controls;let i = $index; track job){
       <div class="job-form-wrapper" [formGroup]="job">
@@ -41,91 +44,92 @@
           Add position
         </button>
         @if(getPositions(job).controls.length){
-        <ng-container formArrayName="positions">
-          @for(position of getPositions(job).controls; track position; let j =
-          $index){
-          <div class="positions-form-wrapper" [formGroup]="position">
-            <button
-              type="button"
-              (click)="removePosition(job, j)"
-              class="remove-position-btn"
-              mat-flat-button
-            >
-              Remove position
-            </button>
-            <app-custom-input
-              [label]="'Position name'"
-              [parentGroup]="position"
-              [controlName]="'positionName'"
-              formControlName="positionName"
-            ></app-custom-input>
-            <app-custom-input
-              [label]="'Position level'"
-              [parentGroup]="position"
-              [controlName]="'positionLevel'"
-              formControlName="positionLevel"
-            ></app-custom-input>
-            <app-custom-input
-              [label]="'Position description'"
-              [parentGroup]="position"
-              [controlName]="'positionDescription'"
-              formControlName="positionDescription"
-            ></app-custom-input>
-            <div class="position-dates-wrapper">
-              <div class="position-date-item">
-                <mat-form-field>
-                  <mat-label>Choose a date</mat-label>
-                  <input
-                    [readonly]="true"
-                    formControlName="positionDateFrom"
-                    matInput
-                    [matDatepicker]="pickerFrom"
-                    [placeholder]="'MM/DD/YYYY'"
-                  />
-                  @if (position.get('positionDateFrom')?.hasError('required')) {
-                  <mat-error
-                    >Position description is
-                    <strong>required</strong></mat-error
-                  >
-                  }
-                  <mat-datepicker-toggle
-                    matIconSuffix
-                    [for]="pickerFrom"
-                  ></mat-datepicker-toggle>
-                  <mat-datepicker #pickerFrom></mat-datepicker>
-                </mat-form-field>
-              </div>
-              <div class="position-date-item">
-                <mat-form-field>
-                  <mat-label>Choose a date</mat-label>
-                  <input
-                    [readonly]="true"
-                    formControlName="positionDateTo"
-                    matInput
-                    [matDatepicker]="pickerTo"
-                    [placeholder]="'MM/DD/YYYY'"
-                  />
-                  @if (position.get('positionDateTo')?.hasError('required')) {
-                  <mat-error
-                    >Position description is
-                    <strong>required</strong></mat-error
-                  >
-                  }
-                  <mat-datepicker-toggle
-                    matIconSuffix
-                    [for]="pickerTo"
-                  ></mat-datepicker-toggle>
-                  <mat-datepicker #pickerTo></mat-datepicker>
-                </mat-form-field>
+        <div class="positions-form-wrapper">
+          <ng-container formArrayName="positions">
+            @for(position of getPositions(job).controls; track position; let j =
+            $index){
+            <div class="positions-form-item" [formGroup]="position">
+              <button
+                type="button"
+                (click)="removePosition(job, j)"
+                class="remove-position-btn"
+                mat-flat-button
+              >
+                Remove position
+              </button>
+              <app-custom-input
+                [label]="'Position name'"
+                [parentGroup]="position"
+                [controlName]="'positionName'"
+                formControlName="positionName"
+              ></app-custom-input>
+              <app-custom-input
+                [label]="'Position level'"
+                [parentGroup]="position"
+                [controlName]="'positionLevel'"
+                formControlName="positionLevel"
+              ></app-custom-input>
+              <app-custom-input
+                [label]="'Position description'"
+                [parentGroup]="position"
+                [controlName]="'positionDescription'"
+                formControlName="positionDescription"
+              ></app-custom-input>
+              <div class="position-dates-wrapper">
+                <div class="position-date-item">
+                  <mat-form-field>
+                    <mat-label>Choose a date</mat-label>
+                    <input
+                      [readonly]="true"
+                      formControlName="positionDateFrom"
+                      matInput
+                      [matDatepicker]="pickerFrom"
+                      [placeholder]="'MM/DD/YYYY'"
+                    />
+                    @if (position.get('positionDateFrom')?.hasError('required'))
+                    {
+                    <mat-error
+                      >Position description is
+                      <strong>required</strong></mat-error
+                    >
+                    }
+                    <mat-datepicker-toggle
+                      matIconSuffix
+                      [for]="pickerFrom"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #pickerFrom></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="position-date-item">
+                  <mat-form-field>
+                    <mat-label>Choose a date</mat-label>
+                    <input
+                      [readonly]="true"
+                      formControlName="positionDateTo"
+                      matInput
+                      [matDatepicker]="pickerTo"
+                      [placeholder]="'MM/DD/YYYY'"
+                    />
+                    @if (position.get('positionDateTo')?.hasError('required')) {
+                    <mat-error
+                      >Position description is
+                      <strong>required</strong></mat-error
+                    >
+                    }
+                    <mat-datepicker-toggle
+                      matIconSuffix
+                      [for]="pickerTo"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #pickerTo></mat-datepicker>
+                  </mat-form-field>
+                </div>
               </div>
             </div>
-          </div>
-          }
-        </ng-container>
+            }
+          </ng-container>
+        </div>
         }
       </div>
-      } @if(jobs.controls.length){
-      <button class="submit-btn" type="submit" mat-flat-button>Submit</button>
       }
     </ng-container>
   </form>
