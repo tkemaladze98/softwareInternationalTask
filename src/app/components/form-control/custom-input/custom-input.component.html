@@ -5,15 +5,15 @@
       [value]="value"
       (blur)="onTouch()"
       (input)="onUpdate($event)"
-      [formControl]="formControl"
+      [formControl]="formControl()"
       matInput
     />
-    @if (formControl.hasError('required')) {
+    @if (formControl().hasError('required')) {
     <mat-error>{{ label }} is <strong>required</strong></mat-error>
-    } @if (formControl.hasError('maxLength')) {
+    } @if (formControl().hasError('maxLength')) {
     <mat-error
       >{{ label }} must not be more than
-      <strong>{{ formControl.errors?.["maxLength"].requiredLength }}</strong>
+      <strong>{{ formControl().errors?.["maxLength"].requiredLength }}</strong>
       character</mat-error
     >
     }
