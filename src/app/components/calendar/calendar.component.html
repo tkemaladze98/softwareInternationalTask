@@ -1,0 +1,30 @@
+<section class="calendar-wrapper">
+  <article class="calendar">
+    <div class="header">
+      <h1>{{ monthNames[today.getMonth()] }} {{ today.getFullYear() }}</h1>
+    </div>
+    <div class="weeks">
+      @for(week of weekDays;track week;let i = $index){
+      <div class="week-item">
+        <span>{{ week }}</span>
+      </div>
+      }
+    </div>
+    <div class="days">
+      @for(day of currentMonthDays();track day;let i = $index){
+      <div
+        class="day-item"
+        [ngClass]="{
+          'other-month': day.getMonth() !== today.getMonth(),
+          'without-right-border': day.getDay() === 6,
+          'without-bottom-border': i + 1 > currentMonthDays().length - 7,
+          'current-day': day.toDateString() === today.toDateString(),
+          'vacation-day': day.getDay() === 0 || day.getDay() === 6
+        }"
+      >
+        <span>{{ day.getDate() }}</span>
+      </div>
+      }
+    </div>
+  </article>
+</section>

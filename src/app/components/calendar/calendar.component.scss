@@ -1,0 +1,78 @@
+.calendar-wrapper {
+  width: 100%;
+  padding: 40px 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .calendar {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid grey;
+    max-width: 800px;
+    width: 100%;
+    .header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 80px;
+      border-bottom: 2px solid grey;
+      h1 {
+        margin: 0;
+        font-size: 60px;
+      }
+    }
+    .weeks {
+      display: flex;
+      min-height: 40px;
+      border-bottom: 2px solid grey;
+      .week-item {
+        flex-grow: 1;
+        width: calc(100% / 7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-right: 2px solid grey;
+        span {
+          font-size: 24px;
+          font-weight: 600;
+        }
+        &:last-child {
+          border: none;
+        }
+      }
+    }
+    .days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      .day-item {
+        aspect-ratio: 1/1;
+        display: flex;
+        justify-content: flex-end;
+        padding: 8px;
+        border-right: 2px solid grey;
+        border-bottom: 2px solid grey;
+        &.other-month {
+          span {
+            opacity: 0.5;
+          }
+        }
+        &.without-right-border{
+          border-right: none;
+        }
+        &.without-bottom-border{
+          border-bottom: none;
+        }
+        &.vacation-day{
+          background-color: rgb(214, 143, 167);
+        }
+        &.current-day{
+          background-color: rgb(121, 180, 121);
+        }
+        span {
+          font-size: 18px;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
