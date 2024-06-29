@@ -1,1 +1,51 @@
-<p>match works!</p>
+<section class="match-wrapper">
+  <div class="divider"></div>
+  <div class="left">
+    <div class="search">
+      <mat-form-field class="example-full-width">
+        <mat-label> საძიებო სიტყვა</mat-label>
+        <input
+          (input)="setValue($event, null, true)"
+          [value]="searchValue"
+          matInput
+        />
+      </mat-form-field>
+      <button type="button" (click)="search()" mat-flat-button>მოძებნე</button>
+    </div>
+    @if(clonedWordsArray.length){
+    <div class="result">
+      @for(word of clonedWordsArray;track word;let i = $index){
+      <div class="result-item">
+        @if(!word.mark){
+        <span class="word">სიტყვა: {{ word.value }}</span>
+        } @if(word.mark){
+        <span
+          >სიტყვა: {{ word.beforeMatch }}<mark>{{ word.mark }}</mark
+          >{{ word.afterMatch }}</span
+        >
+        }
+        <span class="percent">დამთხევა: {{ word.percent }}%</span>
+      </div>
+      }
+    </div>
+    }
+  </div>
+  <div class="right">
+    @for(word of wordsArray;track word;let i = $index){
+    <div class="input-wrapper">
+      <mat-form-field class="example-full-width">
+        <mat-label>სიტყვა</mat-label>
+        <input (input)="setValue($event, word)" [value]="word.value" matInput />
+      </mat-form-field>
+      @if(wordsArray.length > 1){
+      <button (click)="remove(i)" class="remove" mat-icon-button>
+        <mat-icon>remove</mat-icon>
+      </button>
+      }
+      <button (click)="add(i)" class="add" mat-icon-button>
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    }
+  </div>
+</section>
