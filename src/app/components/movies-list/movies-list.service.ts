@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 })
 export class MoviesListService {
   public api = 'https://online-movie-database.p.rapidapi.com/title/v2/find'
-  //
   constructor(private http: HttpClient) { }
 
   public getMovies(queryParams: any) {
