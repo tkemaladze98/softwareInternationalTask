@@ -1,0 +1,62 @@
+.match-wrapper {
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  gap: 40px;
+  min-height: 100%;
+  position: relative;
+  .divider {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    left: calc(50% - 1px);
+    background-color: grey;
+  }
+  .left {
+    width: 100%;
+    padding-right: 16px;
+    .search {
+      mat-form-field {
+        width: 100%;
+      }
+    }
+    button {
+      width: 100%;
+      background-color: blue;
+      color: white;
+    }
+    .result {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+      .result-item {
+        border: 1px dashed grey;
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+  }
+  .right {
+    width: 100%;
+    .input-wrapper {
+      display: flex;
+      gap: 8px;
+      mat-form-field {
+        width: 100%;
+      }
+      button {
+        margin-top: 4px;
+        &.add {
+          background-color: rgb(39, 185, 39);
+        }
+        &.remove {
+          background-color: rgb(216, 54, 54);
+        }
+      }
+    }
+  }
+}
