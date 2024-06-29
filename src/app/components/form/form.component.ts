@@ -1,4 +1,4 @@
-import { Component,signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -42,7 +42,7 @@ export class FormComponent {
   public createJob(): FormGroup {
     return this.fb.group({
       name: ['', [this.maxLengthValidator(100)], [this.requiredAsyncValidator()]],
-      webPage: ['', [], [this.requiredAsyncValidator(), this.checkPatternAsyncValidator('/(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/')]],
+      webPage: ['', [], [this.requiredAsyncValidator(), this.checkPatternAsyncValidator('/(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/','Invalid URL format')]],
       description: ['', [this.maxLengthValidator(500)], [this.requiredAsyncValidator()]],
       positions: this.fb.array([])
     });
@@ -125,7 +125,7 @@ export class FormComponent {
       }
     }
   }
-  public checkPatternAsyncValidator(pattern: string): AsyncValidatorFn {
+  public checkPatternAsyncValidator(pattern: string, errorText?: string): AsyncValidatorFn {
     const regExp = new RegExp(pattern);
     return (control: AbstractControl): Observable<CustomValidatorErrors | null> => {
       if (control.value && !control.value.trim()) {
@@ -133,7 +133,10 @@ export class FormComponent {
       } else if (!regExp.test(control?.value?.toString())) {
         return of(
           {
-            invalidPattern: true
+            invalidPattern: {
+              invalid: true,
+              errorText: errorText || ''
+            }
           }
         ).pipe(delay(500))
       } else {
@@ -158,5 +161,8 @@ export class FormComponent {
 
 
 interface CustomValidatorErrors extends ValidationErrors {
-  invalidPattern?: boolean;
+  invalidPattern?: {
+    invalid: boolean,
+    errorText: string
+  };
 }
