@@ -16,6 +16,10 @@
       <strong>{{ formControl().errors?.["maxLength"].requiredLength }}</strong>
       character</mat-error
     >
+    } @if (formControl().hasError('invalidPattern')) {
+    <mat-error
+      >{{formControl().errors?.["invalidPattern"].errorText}}</mat-error
+    >
     }
   </mat-form-field>
 </div>

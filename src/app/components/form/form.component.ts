@@ -1,7 +1,6 @@
-import { Component,signal } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { Component } from '@angular/core';
+import { AbstractControl, AsyncValidatorFn, FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn,ReactiveFormsModule, FormsModule  } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -42,7 +41,7 @@ export class FormComponent {
   public createJob(): FormGroup {
     return this.fb.group({
       name: ['', [this.maxLengthValidator(100)], [this.requiredAsyncValidator()]],
-      webPage: ['', [], [this.requiredAsyncValidator(), this.checkPatternAsyncValidator('/(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/')]],
+      webPage: ['', [], [this.requiredAsyncValidator(), this.checkPatternAsyncValidator('/(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/', 'Invalid URL format')]],
       description: ['', [this.maxLengthValidator(500)], [this.requiredAsyncValidator()]],
       positions: this.fb.array([])
     });
@@ -116,7 +115,7 @@ export class FormComponent {
 
   public requiredAsyncValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<CustomValidatorErrors | null> => {
-      if (control?.value === null || control?.value === undefined || !control?.value?.toString()?.trim()) {
+      if (!control?.value?.toString()?.trim()) {
         return of({
           required: true
         }).pipe(delay(500));
@@ -125,15 +124,18 @@ export class FormComponent {
       }
     }
   }
-  public checkPatternAsyncValidator(pattern: string): AsyncValidatorFn {
+  public checkPatternAsyncValidator(pattern: string, errorText?: string): AsyncValidatorFn {
     const regExp = new RegExp(pattern);
     return (control: AbstractControl): Observable<CustomValidatorErrors | null> => {
-      if (control.value && !control.value.trim()) {
+      if (control.value === '' && !control.value.trim()) {
         return of(null).pipe(delay(500));
       } else if (!regExp.test(control?.value?.toString())) {
         return of(
           {
-            invalidPattern: true
+            invalidPattern: {
+              invalid: true,
+              errorText: errorText ?? ''
+            }
           }
         ).pipe(delay(500))
       } else {
@@ -158,5 +160,8 @@ export class FormComponent {
 
 
 interface CustomValidatorErrors extends ValidationErrors {
-  invalidPattern?: boolean;
+  invalidPattern?: {
+    invalid: boolean,
+    errorText: string
+  };
 }
