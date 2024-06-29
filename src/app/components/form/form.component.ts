@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -42,7 +42,7 @@ export class FormComponent {
   public createJob(): FormGroup {
     return this.fb.group({
       name: ['', [this.maxLengthValidator(100)], [this.requiredAsyncValidator()]],
-      webPage: ['', [], [this.requiredAsyncValidator()]],
+      webPage: ['', [], [this.requiredAsyncValidator(), this.checkPatternAsyncValidator('/(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/')]],
       description: ['', [this.maxLengthValidator(500)], [this.requiredAsyncValidator()]],
       positions: this.fb.array([])
     });
@@ -90,8 +90,8 @@ export class FormComponent {
 
 
   public onSubmit(): void {
+    console.log(this.jobForm)
     if (this.jobForm.valid) {
-      console.log(this.jobForm)
       alert('ფორმა წარმატებით გაიგზავნა');
     } else {
       this.markAllAsTouched(this.jobForm);
@@ -100,7 +100,7 @@ export class FormComponent {
   }
 
   public maxLengthValidator(maxLength: number): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
+    return (control: AbstractControl): CustomValidatorErrors | null => {
       if (control?.value && control?.value.length > maxLength) {
         return {
           maxLength: {
@@ -115,13 +115,29 @@ export class FormComponent {
   }
 
   public requiredAsyncValidator(): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+    return (control: AbstractControl): Observable<CustomValidatorErrors | null> => {
       if (control?.value === null || control?.value === undefined || !control?.value?.toString()?.trim()) {
         return of({
           required: true
-        }).pipe(delay(500)); // Add delay to simulate async validation
+        }).pipe(delay(500));
       } else {
-        return of(null).pipe(delay(500)); // Add delay to simulate async validation
+        return of(null).pipe(delay(500));
+      }
+    }
+  }
+  public checkPatternAsyncValidator(pattern: string): AsyncValidatorFn {
+    const regExp = new RegExp(pattern);
+    return (control: AbstractControl): Observable<CustomValidatorErrors | null> => {
+      if (control.value && !control.value.trim()) {
+        return of(null).pipe(delay(500));
+      } else if (!regExp.test(control?.value?.toString())) {
+        return of(
+          {
+            invalidPattern: true
+          }
+        ).pipe(delay(500))
+      } else {
+        return of(null).pipe(delay(500));
       }
     }
   }
@@ -138,4 +154,9 @@ export class FormComponent {
       }
     });
   }
+}
+
+
+interface CustomValidatorErrors extends ValidationErrors {
+  invalidPattern?: boolean;
 }
