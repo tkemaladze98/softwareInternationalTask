@@ -57,7 +57,9 @@ export class MatchComponent {
             percent: ((checkREsult.mark?.length ?? 0) / value.length) * 100
           }
         }
-      } else {
+      } else if(largestMatchValue.mark) {
+        matchValue = value.charAt(i)
+      }else{
         matchValue = ''
       }
     }
