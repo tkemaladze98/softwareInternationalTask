@@ -42,57 +42,26 @@ export class MatchComponent {
   public calculateMatch(searchValue: string, item: { value: string }): ResultArray {
     const value: string = searchValue.toLowerCase();
     item.value = item.value.toLowerCase();
-    let matchCount: number = 0;
-    let returnObj: any = {}
-    let foundOneCharacter: boolean = false
+    let largestMatchValue: ResultArray = { mark: '', value: item.value, percent: 0 }
+    let matchValue: string = ''
     for (let i = 0; i < value.length; i++) {
-      const checkFromRight = this.checkIfIncludes(item.value, value.slice(0, value.length - i));
-      if (checkFromRight.match && checkFromRight.mark && checkFromRight.mark?.length > matchCount) {
-        matchCount = checkFromRight.mark?.length;
-        returnObj = {
-          value: item.value,
-          beforeMatch: checkFromRight.beforeMatch,
-          mark: checkFromRight.mark,
-          afterMatch: checkFromRight.afterMatch,
-          percent: (value.slice(i).length / value.length) * 100
-        }
-      }
-      if (!matchCount) {
-        const checkFromLeft = this.checkIfIncludes(item.value, value.slice(i));
-        if (checkFromLeft.match && checkFromLeft.mark && checkFromLeft.mark?.length > matchCount) {
-          matchCount = checkFromLeft.mark?.length;
-          returnObj = {
+      const checkREsult = this.checkIfIncludes(item.value, matchValue + value.charAt(i))
+      if (checkREsult.match) {
+        matchValue = matchValue + value.charAt(i)
+        if (matchValue.length > (largestMatchValue?.mark?.length ?? 0)) {
+          largestMatchValue = {
             value: item.value,
-            beforeMatch: checkFromLeft.beforeMatch,
-            mark: checkFromLeft.mark,
-            afterMatch: checkFromLeft.afterMatch,
-            percent: (value.slice(i).length / value.length) * 100
+            beforeMatch: checkREsult.beforeMatch,
+            mark: checkREsult.mark,
+            afterMatch: checkREsult.afterMatch,
+            percent: ((checkREsult.mark?.length ?? 0) / value.length) * 100
           }
         }
-      }
-      if (matchCount) {
-        break
-      } else if (!foundOneCharacter) {
-        const checkOneCharacter = this.checkIfIncludes(item.value, value.charAt(i));
-        if (checkOneCharacter.match && checkOneCharacter) {
-          foundOneCharacter = true
-          returnObj = {
-            value: item.value,
-            beforeMatch: checkOneCharacter.beforeMatch,
-            mark: checkOneCharacter.mark,
-            afterMatch: checkOneCharacter.afterMatch,
-            percent: (1 / value.length) * 100
-          }
-        }
+      } else {
+        matchValue = ''
       }
     }
-    if (!Object.keys(returnObj).length) {
-      returnObj = {
-        value: item.value,
-        percent: 0
-      }
-    }
-    return returnObj
+    return largestMatchValue
   }
 
   public checkIfIncludes(matchValue: string, searchValue: string): {
