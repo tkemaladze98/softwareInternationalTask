@@ -48,7 +48,13 @@
           <ng-container formArrayName="positions">
             @for(position of getPositions(job).controls; track position; let j =
             $index){
-            <div class="positions-form-item" [formGroup]="position">
+            <div
+               [ngClass]="{
+                'with-animate': getPositions(job).controls.length > 1 && j === getPositions(job).controls.length - 1 && positionAdeed
+              }"
+              class="positions-form-item"
+              [formGroup]="position"
+            >
               <button
                 type="button"
                 (click)="removePosition(job, j)"

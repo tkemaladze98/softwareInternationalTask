@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn,ReactiveFormsModule, FormsModule  } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { NgFor } from '@angular/common';
+import { NgClass, NgFor } from '@angular/common';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { Observable, delay, of } from 'rxjs';
@@ -22,7 +22,8 @@ import { CustomInputComponent } from '../form-control/custom-input/custom-input.
     MatIconModule,
     FormsModule,
     MatDatepickerModule,
-    NgFor
+    NgFor,
+    NgClass
   ],
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
@@ -70,9 +71,15 @@ export class FormComponent {
   }
 
   public addPosition(job: FormGroup): void {
+    this.positionAdeed = true;
+    setTimeout(() => {
+      this.positionAdeed = false
+    }, 500);
     const positions = job.get('positions') as FormArray;
     positions.push(this.createPosition());
   }
+
+  positionAdeed: boolean = false
 
   public removePosition(job: FormGroup, index: number): void {
     const positions = job.get('positions') as FormArray;

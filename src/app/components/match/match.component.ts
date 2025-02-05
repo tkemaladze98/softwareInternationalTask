@@ -1,4 +1,4 @@
-import { Component, WritableSignal, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatFormField } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -57,9 +57,9 @@ export class MatchComponent {
             percent: ((checkREsult.mark?.length ?? 0) / value.length) * 100
           }
         }
-      } else if(largestMatchValue.mark) {
+      } else if (largestMatchValue.mark) {
         matchValue = value.charAt(i)
-      }else{
+      } else {
         matchValue = ''
       }
     }
