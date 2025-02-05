@@ -21,26 +21,4 @@
   <body class="mat-typography">
     <app-root></app-root>
   </body>
-  <script>
-    let test = [
-      {
-        name: "og:name",
-        content: "title",
-      },
-      {
-        name: "og:description",
-        content: "some description",
-      },
-      {
-        name: "og:image",
-        content: "assets/images/No-Image.png",
-      },
-    ];
-    test.forEach((item) => {
-      let meta = document.createElement("meta");
-      meta.name = item.name;
-      meta.content = item.content;
-      document.head.appendChild(meta);
-    });
-  </script>
 </html>
