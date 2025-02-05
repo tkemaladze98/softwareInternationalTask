@@ -50,11 +50,17 @@
           mat-form-field {
             width: 100%;
           }
+          &.with-animate{
+            transition: 0.5s all;
+            overflow: hidden;
+            animation: open 0.5s linear 1;
+          }
         }
         .remove-position-btn {
           width: 30%;
           background-color: red;
           color: white;
+          flex-shrink: 0;
         }
         .position-dates-wrapper {
           display: flex;
@@ -73,5 +79,15 @@
       width: 100%;
       color: white;
     }
+  }
+}
+
+
+@keyframes open {
+  from{
+    height: 0;
+  }
+  to{
+    height: 440px;
   }
 }
